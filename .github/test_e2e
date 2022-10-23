@@ -1,0 +1,54 @@
+import time
+import pytest
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+# -- Chrome
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+from PageObjects.Checkoutpage import CheckOutPage
+from PageObjects.Confirmpage import ConfirmItem
+from PageObjects.Homepage import HomePage
+from tests.utilities.BaseClass import BaseClass
+
+""" E-Commerce Website Automate the script Using PYtest FrameWork to Order a Mobile Phone """
+
+
+# @pytest.mark.use-fixtures("setup")
+class Testone(BaseClass):
+
+    def test_e2e(self):
+
+        homePage = HomePage(self.driver)
+        CheckoutPage = homePage.ShopItems()
+        # CheckoutPage = CheckOutPage(self.driver)
+        time.sleep(2)
+        # "ShopItems:" self.driver.find_element(By.CSS_SELECTOR, " a[href*='shop']").click()
+        products = CheckoutPage.getCardTitles()
+        # products = self.driver.find_elements(By.XPATH, "//div[@class='card h-100']")
+
+        for product in products:
+            productName = product.find_element(By.XPATH, "div/h4/a").text
+            if productName == "Blackberry":
+                product.find_element(By.XPATH, "div/button").click()
+
+        # self.driver.find_element(By.CSS_SELECTOR, "a[class*='btn-primary']").click()
+        confirmPage = CheckoutPage.CheckoutItems()
+        # self.driver.find_element(By.XPATH, "//button[@class='btn btn-success']").click
+        # confirmPage = ConfirmItem(self.driver)
+        confirmPage.ConfirmButton().click()
+        # self.driver.find_element(By.ID, "country").send_keys("ind")
+        confirmPage.ConfirmLocation().send_keys('ind')
+        self.verifyLinkPresence("India")
+        # "Declared in VerifyLinkPresence Method:" wait = WebDriverWait(self.driver, 10) "Declared in
+        # "VerifyLinkPresence Method:" wait.until(expected_conditions.presence_of_element_located((By.LINK_TEXT,
+        # "India")))
+        # "VerifyLinkPresence Method:" self.driver.find_element(By.LINK_TEXT, "India").click
+        confirmPage.LocationFound().click()
+        # self.driver.find_element(By.XPATH, "//div[@class='checkbox checkbox-primary']").click()
+        confirmPage.CheckBox_Btn().click()
+        # self.driver.find_element(By.CSS_SELECTOR, "[type='submit']").click()
+        confirmPage.CheckBox_TermsConditions().click()
+        successText = self.driver.find_element(By.CLASS_NAME, "alert-success").text
+        assert "Success! Thank you!" in successText
+        self.driver.close()
