@@ -6,9 +6,9 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium import webdriver
 
+# CONFTEST: If There's a common code which needs to be runned initially it have to be declared first in this python File. 
 # """Successfully Declared and initialized run time variable and KeyValue (--browser_name) should be matched
 #  in CMDB Terminal """
-
 
 def pytest_addoption(parser):
     parser.addoption(
