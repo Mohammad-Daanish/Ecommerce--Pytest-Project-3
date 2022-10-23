@@ -18,9 +18,6 @@ class CheckOutPage:
     def getCardTitles(self):
         return self.driver.find_elements(*CheckOutPage.CardTitle)
 
-    # def getCardFooter(self):
-    #     return self.driver.find_elements(*CheckOutPage.cardFooter)
-
     def CheckoutItems(self):
         self.driver.find_element(*CheckOutPage.Checkout).click()
         confirmPage = ConfirmItem(self.driver)
