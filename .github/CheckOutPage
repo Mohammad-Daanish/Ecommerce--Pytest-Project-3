@@ -1,0 +1,28 @@
+from selenium.webdriver.common.by import By
+from PageObjects.Confirmpage import ConfirmItem
+
+
+class CheckOutPage:
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    CardTitle = (By.XPATH, "//div[@class='card h-100']")
+    # cardFooter = (By.CSS_SELECTOR, ".card-footer button")
+
+    # driver.find_elements(By.XPATH, "//div[@class='card h-100']")
+    # driver.find_element(By.CSS_SELECTOR, "a[class*='btn-primary']").click()
+
+    Checkout = (By.CSS_SELECTOR, "a[class*='btn-primary'")
+
+    def getCardTitles(self):
+        return self.driver.find_elements(*CheckOutPage.CardTitle)
+
+    # def getCardFooter(self):
+    #     return self.driver.find_elements(*CheckOutPage.cardFooter)
+
+    def CheckoutItems(self):
+        self.driver.find_element(*CheckOutPage.Checkout).click()
+        confirmPage = ConfirmItem(self.driver)
+        return confirmPage
+
